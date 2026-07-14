@@ -1,0 +1,6 @@
+python-binance==1.0.19
+typer==0.12.5
+rich==13.9.4
+python-dotenv==1.0.1
+requests==2.32.3
+pytest==8.3.4
