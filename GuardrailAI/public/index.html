@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GuardRail — Deployment Safety Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg: #0B0E12;
+    --panel: #12161C;
+    --border: #232B35;
+    --text: #E4E8ED;
+    --muted: #6B7684;
+    --teal: #33D6B0;
+    --amber: #F0A93B;
+    --red: #F0524B;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--bg); color:var(--text); font-family:var(--font-body);
+    min-height:100vh; padding:28px; -webkit-font-smoothing:antialiased;
+  }
+  header{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:24px; padding-bottom:20px; border-bottom:1px solid var(--border);
+  }
+  .brand{display:flex; align-items:center; gap:12px;}
+  .brand-mark{
+    width:34px; height:34px; border-radius:8px; background:linear-gradient(135deg, var(--teal), #1a8f73);
+    display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-weight:700; color:#06110d; font-size:16px;
+  }
+  h1{font-family:var(--font-display); font-size:20px; font-weight:600; letter-spacing:-0.01em;}
+  .subtitle{color:var(--muted); font-size:13px; margin-top:2px;}
+  .system-status{
+    display:flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:12px; color:var(--muted);
+    background:var(--panel); border:1px solid var(--border); padding:8px 14px; border-radius:20px;
+  }
+  .pulse{width:8px; height:8px; border-radius:50%; background:var(--teal); box-shadow:0 0 0 0 rgba(51,214,176,0.6); animation:pulse 2s infinite;}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(51,214,176,0.5);}
+    70%{box-shadow:0 0 0 8px rgba(51,214,176,0);}
+    100%{box-shadow:0 0 0 0 rgba(51,214,176,0);}
+  }
+  .grid{display:grid; grid-template-columns: 380px 1fr 340px; gap:20px; align-items:start;}
+  @media (max-width: 1100px){ .grid{grid-template-columns:1fr;} }
+  .panel{
+    background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:20px;
+  }
+  .panel + .panel{margin-top:20px;}
+  .panel-title{
+    font-family:var(--font-display); font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.06em;
+    color:var(--muted); margin-bottom:16px; display:flex; align-items:center; justify-content:space-between;
+  }
+  label{display:block; font-size:12px; color:var(--muted); margin-bottom:6px; margin-top:14px;}
+  label:first-of-type{margin-top:0;}
+  input[type=text], textarea{
+    width:100%; background:var(--bg); border:1px solid var(--border); border-radius:8px; color:var(--text);
+    padding:10px 12px; font-family:var(--font-mono); font-size:12.5px; resize:vertical;
+  }
+  textarea{min-height:130px; line-height:1.5;}
+  input[type=range]{width:100%; accent-color:var(--amber);}
+  .chaos-label{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:11px; color:var(--muted);}
+  button{
+    font-family:var(--font-body); font-weight:600; font-size:13.5px; border:none; border-radius:8px;
+    padding:11px 16px; cursor:pointer; transition:opacity .15s ease;
+  }
+  button:hover{opacity:0.85;}
+  .btn-primary{background:var(--teal); color:#06110d; width:100%; margin-top:16px;}
+  .validation-result{
+    margin-top:14px; padding:12px; border-radius:8px; font-family:var(--font-mono); font-size:11.5px; line-height:1.6; display:none;
+  }
+  .validation-result.pass{display:block; background:rgba(51,214,176,0.08); border:1px solid rgba(51,214,176,0.35); color:var(--teal);}
+  .validation-result.fail{display:block; background:rgba(240,82,75,0.08); border:1px solid rgba(240,82,75,0.35); color:#ff9f9a;}
+
+  .stage-tracker{display:flex; gap:8px; margin-bottom:22px;}
+  .stage-block{
+    flex:1; height:56px; border-radius:8px; border:1px solid var(--border); background:var(--bg);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;
+    position:relative; overflow:hidden; transition:all .3s ease;
+  }
+  .stage-block .pct{font-family:var(--font-mono); font-size:14px; font-weight:500;}
+  .stage-block .lbl{font-family:var(--font-mono); font-size:9px; color:var(--muted); text-transform:uppercase;}
+  .stage-block.active{border-color:var(--teal); box-shadow:0 0 0 1px rgba(51,214,176,0.3), 0 0 20px rgba(51,214,176,0.15);}
+  .stage-block.passed{background:rgba(51,214,176,0.1); border-color:rgba(51,214,176,0.4);}
+  .stage-block.passed .pct{color:var(--teal);}
+  .stage-block.failed{background:rgba(240,82,75,0.12); border-color:var(--red);}
+  .stage-block.failed .pct{color:var(--red);}
+
+  .deploy-row{
+    display:grid; grid-template-columns: 1fr auto auto; gap:10px; align-items:center;
+    padding:12px 0; border-bottom:1px solid var(--border); font-size:13px;
+  }
+  .deploy-row:last-child{border-bottom:none;}
+  .deploy-name{font-weight:500;}
+  .deploy-version{color:var(--muted); font-family:var(--font-mono); font-size:11.5px;}
+  .status-pill{
+    font-family:var(--font-mono); font-size:10.5px; padding:4px 9px; border-radius:20px; text-transform:uppercase; letter-spacing:0.03em; white-space:nowrap;
+  }
+  .status-pill.success{background:rgba(51,214,176,0.12); color:var(--teal);}
+  .status-pill.rolled_back{background:rgba(240,82,75,0.14); color:var(--red);}
+  .status-pill.rolling_out, .status-pill.queued{background:rgba(240,169,59,0.14); color:var(--amber);}
+
+  .flag-row{
+    display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--border);
+  }
+  .flag-row:last-child{border-bottom:none;}
+  .flag-name{font-size:13px; font-weight:500;}
+  .flag-meta{font-family:var(--font-mono); font-size:10.5px; color:var(--muted);}
+  .toggle{
+    width:38px; height:22px; border-radius:20px; background:var(--border); position:relative; cursor:pointer; flex-shrink:0; transition:background .2s ease;
+  }
+  .toggle.on{background:var(--teal);}
+  .toggle::after{
+    content:''; position:absolute; top:2px; left:2px; width:18px; height:18px; border-radius:50%; background:#0B0E12; transition:transform .2s ease;
+  }
+  .toggle.on::after{transform:translateX(16px); background:#06110d;}
+
+  .log-feed{max-height:220px; overflow-y:auto; font-family:var(--font-mono); font-size:11px; line-height:1.7;}
+  .log-empty{color:var(--muted); font-style:italic;}
+  .log-line{padding:8px 0; border-bottom:1px solid var(--border); color:#ff9f9a;}
+  .log-line:last-child{border-bottom:none;}
+  .log-time{color:var(--muted); margin-right:8px;}
+
+  canvas{max-height:180px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-mark">G</div>
+    <div>
+      <h1>GuardRail</h1>
+      <div class="subtitle">Deployment safety console — turns production into a safe place to fail</div>
+    </div>
+  </div>
+  <div class="system-status"><span class="pulse"></span> ALL SYSTEMS NOMINAL</div>
+</header>
+
+<div class="grid">
+
+  <div>
+    <div class="panel">
+      <div class="panel-title">New Deployment</div>
+
+      <label>Service name</label>
+      <input type="text" id="serviceName" value="checkout-api" />
+
+      <label>Version</label>
+      <input type="text" id="version" value="v2.4.1" />
+
+      <label>Config (JSON — validated before deploy)</label>
+      <textarea id="config">{
+  "serviceName": "checkout-api",
+  "maxRules": 50,
+  "maxFileSizeKB": 200,
+  "rules": [
+    { "match": "/checkout/*", "action": "route" },
+    { "match": "/cart/*", "action": "route" }
+  ]
+}</textarea>
+
+      <label>Chaos level — how buggy is this build? (demo only)</label>
+      <input type="range" id="chaos" min="0" max="100" value="0" />
+      <div class="chaos-label"><span>0% — healthy build</span><span id="chaosVal">0%</span></div>
+
+      <button class="btn-primary" onclick="deploy()">Validate & Deploy</button>
+      <div id="validationResult" class="validation-result"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">Feature Flags <span style="font-weight:400; text-transform:none; letter-spacing:0;">no redeploy needed</span></div>
+      <div id="flagList"></div>
+    </div>
+  </div>
+
+  <div>
+    <div class="panel">
+      <div class="panel-title">Canary Rollout — Blast Radius</div>
+      <div class="stage-tracker" id="stageTracker">
+        <div class="stage-block" data-stage="1"><div class="pct">1%</div><div class="lbl">stage 1</div></div>
+        <div class="stage-block" data-stage="10"><div class="pct">10%</div><div class="lbl">stage 2</div></div>
+        <div class="stage-block" data-stage="50"><div class="pct">50%</div><div class="lbl">stage 3</div></div>
+        <div class="stage-block" data-stage="100"><div class="pct">100%</div><div class="lbl">stage 4</div></div>
+      </div>
+      <canvas id="errorChart"></canvas>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">Deployment History</div>
+      <div id="deployHistory"><div class="log-empty">No deployments yet — run one from the left panel.</div></div>
+    </div>
+  </div>
+
+  <div>
+    <div class="panel">
+      <div class="panel-title">Auto-Rollback Log</div>
+      <div class="log-feed" id="rollbackLog"><div class="log-empty">No rollbacks triggered yet.</div></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const chaosSlider = document.getElementById('chaos');
+const chaosVal = document.getElementById('chaosVal');
+chaosSlider.addEventListener('input', () => chaosVal.textContent = chaosSlider.value + '%');
+
+const ctx = document.getElementById('errorChart').getContext('2d');
+const errorChart = new Chart(ctx, {
+  type: 'line',
+  data: { labels: [], datasets: [
+    { label: 'Error rate', data: [], borderColor: '#33D6B0', backgroundColor: 'rgba(51,214,176,0.08)', fill:true, tension:0.35, pointRadius:3 },
+  ]},
+  options: {
+    responsive:true,
+    plugins:{ legend:{ display:false } },
+    scales:{
+      y:{ ticks:{ color:'#6B7684', callback:v=>(v*100).toFixed(1)+'%' }, grid:{ color:'#232B35' } },
+      x:{ ticks:{ color:'#6B7684' }, grid:{ display:false } }
+    }
+  }
+});
+
+function resetStageTracker(){
+  document.querySelectorAll('.stage-block').forEach(el => el.classList.remove('active','passed','failed'));
+}
+
+function updateStage(stagePercent, failed){
+  document.querySelectorAll('.stage-block').forEach(el => {
+    const s = Number(el.dataset.stage);
+    if (s < stagePercent) el.classList.add('passed');
+    if (s === stagePercent) el.classList.add(failed ? 'failed' : 'active');
+  });
+}
+
+async function loadFlags(){
+  const res = await fetch('/api/feature-flags');
+  const flags = await res.json();
+  const container = document.getElementById('flagList');
+  container.innerHTML = '';
+  Object.entries(flags).forEach(([name, flag]) => {
+    const row = document.createElement('div');
+    row.className = 'flag-row';
+    row.innerHTML = `
+      <div><div class="flag-name">${name}</div><div class="flag-meta">${flag.rolloutPercent}% rollout</div></div>
+      <div class="toggle ${flag.enabled ? 'on' : ''}" onclick="toggleFlag('${name}')"></div>
+    `;
+    container.appendChild(row);
+  });
+}
+
+async function toggleFlag(name){
+  await fetch(`/api/feature-flags/${name}/toggle`, { method:'POST' });
+  loadFlags();
+}
+
+async function deploy(){
+  const serviceName = document.getElementById('serviceName').value;
+  const version = document.getElementById('version').value;
+  const chaosLevel = Number(chaosSlider.value) / 100;
+  let config;
+  try {
+    config = JSON.parse(document.getElementById('config').value);
+  } catch(e) {
+    showValidation(false, ['Config is not valid JSON: ' + e.message]);
+    return;
+  }
+
+  resetStageTracker();
+  errorChart.data.labels = [];
+  errorChart.data.datasets[0].data = [];
+  errorChart.update();
+
+  const res = await fetch('/api/deploy', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ serviceName, version, config, chaosLevel })
+  });
+  const data = await res.json();
+
+  if (data.blocked) {
+    showValidation(false, [data.reason, ...data.errors]);
+    return;
+  }
+  showValidation(true, ['Config passed validation. Canary rollout started.']);
+  loadDeployHistory();
+}
+
+function showValidation(pass, lines){
+  const el = document.getElementById('validationResult');
+  el.className = 'validation-result ' + (pass ? 'pass' : 'fail');
+  el.innerHTML = lines.map(l => '&gt; ' + l).join('<br>');
+}
+
+async function loadDeployHistory(){
+  const res = await fetch('/api/deployments');
+  const deploys = await res.json();
+  const container = document.getElementById('deployHistory');
+  if (!deploys.length){ container.innerHTML = '<div class="log-empty">No deployments yet.</div>'; return; }
+  container.innerHTML = deploys.map(d => `
+    <div class="deploy-row">
+      <div><div class="deploy-name">${d.serviceName}</div><div class="deploy-version">${d.version}</div></div>
+      <div class="deploy-version">${d.currentStage}% traffic</div>
+      <div class="status-pill ${d.status}">${d.status.replace('_',' ')}</div>
+    </div>
+  `).join('');
+}
+
+async function loadRollbackLog(){
+  const res = await fetch('/api/rollback-events');
+  const events = await res.json();
+  const container = document.getElementById('rollbackLog');
+  if (!events.length){ container.innerHTML = '<div class="log-empty">No rollbacks triggered yet.</div>'; return; }
+  container.innerHTML = events.map(e => `
+    <div class="log-line">
+      <span class="log-time">${new Date(e.timestamp).toLocaleTimeString()}</span>
+      ${e.serviceName} ${e.version} — ${e.reason}
+    </div>
+  `).join('');
+}
+
+const ws = new WebSocket(`ws://${location.host}`);
+ws.onmessage = (event) => {
+  const { type, payload } = JSON.parse(event.data);
+
+  if (type === 'stage_update') {
+    updateStage(payload.stagePercent, false);
+    errorChart.data.labels.push(payload.stagePercent + '%');
+    errorChart.data.datasets[0].data.push(payload.errorRate);
+    errorChart.update();
+    loadDeployHistory();
+  }
+  if (type === 'rollback') {
+    updateStage(payload.stagePercent, true);
+    loadRollbackLog();
+    loadDeployHistory();
+  }
+  if (type === 'deploy_success') {
+    loadDeployHistory();
+  }
+  if (type === 'flag_updated') {
+    loadFlags();
+  }
+};
+
+loadFlags();
+loadDeployHistory();
+loadRollbackLog();
+</script>
+
+</body>
+</html>
