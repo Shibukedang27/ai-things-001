@@ -1,0 +1,11 @@
+<svg width="420" height="112" viewBox="0 0 420 112" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">OfferPilot AI logo</title>
+  <desc id="desc">Horizontal placeholder logo for OfferPilot AI.</desc>
+  <rect x="8" y="8" width="96" height="96" rx="24" fill="#0B1220"/>
+  <path d="M31.5 67.5C42.5 44 62.5 33.5 84 30.5" stroke="#14B8A6" stroke-width="7" stroke-linecap="round"/>
+  <path d="M37 70.5L49.5 82L78.5 47" stroke="#F59E0B" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="84" cy="30.5" r="7" fill="#A3E635"/>
+  <text x="124" y="53" fill="#0B1220" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="800" letter-spacing="0">OfferPilot</text>
+  <text x="124" y="82" fill="#14B8A6" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800" letter-spacing="0">AI</text>
+  <text x="158" y="82" fill="#667085" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="600" letter-spacing="0">Interview intelligence for offer-ready teams</text>
+</svg>

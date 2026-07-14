@@ -1,0 +1,45 @@
+# Version control and local tooling
+.git
+.github
+.idea
+.vscode
+.DS_Store
+
+# Python
+.venv
+venv
+env
+__pycache__
+**/__pycache__
+*.py[cod]
+.pytest_cache
+.ruff_cache
+.mypy_cache
+
+# Node
+frontend/node_modules
+frontend/dist
+frontend/.vite
+node_modules
+dist
+build
+coverage
+*.tsbuildinfo
+
+# Runtime and generated artifacts
+logs
+*.log
+screenshots/**/*.tmp
+screenshots/**/*.diff.png
+tests/reports
+test-results
+playwright-report
+
+# Local environment and data
+.env
+.env.*
+docker-data
+*.sqlite
+*.sqlite3
+*.db
+database/backups/*

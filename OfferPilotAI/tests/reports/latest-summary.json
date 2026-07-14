@@ -1,0 +1,428 @@
+{
+  "command": "/Users/maniacsday/Documents/Codex/2026-07-14/you-are-a-senior-software-architect/OfferPilotAI/.venv/bin/python -m pytest tests --junitxml /Users/maniacsday/Documents/Codex/2026-07-14/you-are-a-senior-software-architect/OfferPilotAI/tests/reports/junit.xml",
+  "errors": 0,
+  "exit_code": 0,
+  "failures": 0,
+  "failures_detail": [],
+  "skipped": 0,
+  "started_at": "2026-07-14 13:51:32 IST",
+  "status": "passed",
+  "testcases": [
+    {
+      "classname": "tests.backend.api.test_api_contracts",
+      "name": "test_openapi_documents_all_product_api_surfaces",
+      "outcome": "passed",
+      "time": 0.277
+    },
+    {
+      "classname": "tests.backend.test_openapi",
+      "name": "test_openapi_schema_is_available",
+      "outcome": "passed",
+      "time": 0.277
+    },
+    {
+      "classname": "tests.backend.test_security",
+      "name": "test_password_hashing_and_verification",
+      "outcome": "passed",
+      "time": 0.111
+    },
+    {
+      "classname": "tests.backend.database.test_database_metadata",
+      "name": "test_alembic_migrations_form_single_linear_chain",
+      "outcome": "passed",
+      "time": 0.063
+    },
+    {
+      "classname": "tests.backend.test_analytics",
+      "name": "test_analytics_overview_generates_all_requested_views",
+      "outcome": "passed",
+      "time": 0.063
+    },
+    {
+      "classname": "tests.backend.api.test_api_contracts",
+      "name": "test_public_get_contracts_return_standard_response[/-expected_keys0]",
+      "outcome": "passed",
+      "time": 0.045
+    },
+    {
+      "classname": "tests.backend.api.test_api_contracts",
+      "name": "test_protected_get_contracts_require_bearer_token[/api/v1/interview-history/]",
+      "outcome": "passed",
+      "time": 0.045
+    },
+    {
+      "classname": "tests.backend.api.test_api_contracts",
+      "name": "test_protected_get_contracts_require_bearer_token[/api/v1/leaderboard/]",
+      "outcome": "passed",
+      "time": 0.042
+    },
+    {
+      "classname": "tests.backend.api.test_api_contracts",
+      "name": "test_protected_get_contracts_require_bearer_token[/api/v1/sessions/]",
+      "outcome": "passed",
+      "time": 0.04
+    },
+    {
+      "classname": "tests.backend.api.test_api_contracts",
+      "name": "test_public_get_contracts_return_standard_response[/api/v1/questions/categories-None]",
+      "outcome": "passed",
+      "time": 0.038
+    },
+    {
+      "classname": "tests.backend.test_live_coding",
+      "name": "test_python_runner_executes_code_with_stdin",
+      "outcome": "passed",
+      "time": 0.037
+    },
+    {
+      "classname": "tests.backend.api.test_api_contracts",
+      "name": "test_protected_get_contracts_require_bearer_token[/api/v1/reports/]",
+      "outcome": "passed",
+      "time": 0.036
+    },
+    {
+      "classname": "tests.backend.api.test_api_contracts",
+      "name": "test_protected_get_contracts_require_bearer_token[/api/v1/learning-roadmaps/]",
+      "outcome": "passed",
+      "time": 0.035
+    },
+    {
+      "classname": "tests.backend.api.test_api_contracts",
+      "name": "test_public_get_contracts_return_standard_response[/api/v1/health/live-expected_keys2]",
+      "outcome": "passed",
+      "time": 0.032
+    },
+    {
+      "classname": "tests.backend.api.test_api_contracts",
+      "name": "test_protected_get_contracts_require_bearer_token[/api/v1/answers/]",
+      "outcome": "passed",
+      "time": 0.03
+    },
+    {
+      "classname": "tests.backend.api.test_api_contracts",
+      "name": "test_public_get_contracts_return_standard_response[/api/v1/interviews/templates-None]",
+      "outcome": "passed",
+      "time": 0.029
+    },
+    {
+      "classname": "tests.backend.test_interviews",
+      "name": "test_list_interview_templates",
+      "outcome": "passed",
+      "time": 0.028
+    },
+    {
+      "classname": "tests.backend.test_interviews",
+      "name": "test_create_interview_session_draft",
+      "outcome": "passed",
+      "time": 0.026
+    },
+    {
+      "classname": "tests.backend.test_questions",
+      "name": "test_list_question_categories",
+      "outcome": "passed",
+      "time": 0.026
+    },
+    {
+      "classname": "tests.backend.api.test_api_contracts",
+      "name": "test_protected_get_contracts_require_bearer_token[/api/v1/resume-analyzer/options]",
+      "outcome": "passed",
+      "time": 0.025
+    },
+    {
+      "classname": "tests.backend.test_interviews",
+      "name": "test_create_interview_session_rejects_duplicate_focus_areas",
+      "outcome": "passed",
+      "time": 0.025
+    },
+    {
+      "classname": "tests.backend.api.test_api_contracts",
+      "name": "test_public_get_contracts_return_standard_response[/api/v1/questions/difficulty-levels-None]",
+      "outcome": "passed",
+      "time": 0.024
+    },
+    {
+      "classname": "tests.backend.api.test_api_contracts",
+      "name": "test_protected_get_contracts_require_bearer_token[/api/v1/users/]",
+      "outcome": "passed",
+      "time": 0.024
+    },
+    {
+      "classname": "tests.backend.test_protected_routes",
+      "name": "test_product_crud_routes_require_bearer_token",
+      "outcome": "passed",
+      "time": 0.022
+    },
+    {
+      "classname": "tests.backend.test_protected_routes",
+      "name": "test_public_catalog_metadata_remains_available",
+      "outcome": "passed",
+      "time": 0.022
+    },
+    {
+      "classname": "tests.backend.test_questions",
+      "name": "test_list_difficulty_levels",
+      "outcome": "passed",
+      "time": 0.022
+    },
+    {
+      "classname": "tests.backend.test_live_coding",
+      "name": "test_live_coding_routes_require_authentication",
+      "outcome": "passed",
+      "time": 0.02
+    },
+    {
+      "classname": "tests.backend.test_resume_analyzer",
+      "name": "test_resume_analyzer_routes_require_authentication",
+      "outcome": "passed",
+      "time": 0.02
+    },
+    {
+      "classname": "tests.backend.api.test_api_contracts",
+      "name": "test_protected_get_contracts_require_bearer_token[/api/v1/live-coding/options]",
+      "outcome": "passed",
+      "time": 0.018
+    },
+    {
+      "classname": "tests.backend.api.test_api_contracts",
+      "name": "test_public_get_contracts_return_standard_response[/api/v1/interview-engine/options-expected_keys6]",
+      "outcome": "passed",
+      "time": 0.015
+    },
+    {
+      "classname": "tests.backend.api.test_api_contracts",
+      "name": "test_protected_get_contracts_require_bearer_token[/api/v1/evaluations/options]",
+      "outcome": "passed",
+      "time": 0.015
+    },
+    {
+      "classname": "tests.backend.api.test_api_contracts",
+      "name": "test_protected_get_contracts_require_bearer_token[/api/v1/recommendations/options]",
+      "outcome": "passed",
+      "time": 0.015
+    },
+    {
+      "classname": "tests.backend.api.test_api_contracts",
+      "name": "test_public_get_contracts_return_standard_response[/api/v1/health-expected_keys1]",
+      "outcome": "passed",
+      "time": 0.014
+    },
+    {
+      "classname": "tests.backend.test_evaluation_engine",
+      "name": "test_evaluation_options_requires_authentication",
+      "outcome": "passed",
+      "time": 0.014
+    },
+    {
+      "classname": "tests.backend.test_recommendation_engine",
+      "name": "test_recommendation_options_requires_authentication",
+      "outcome": "passed",
+      "time": 0.014
+    },
+    {
+      "classname": "tests.backend.test_analytics",
+      "name": "test_analytics_route_requires_authentication",
+      "outcome": "passed",
+      "time": 0.013
+    },
+    {
+      "classname": "tests.backend.test_interview_engine",
+      "name": "test_interview_engine_options_include_requested_categories",
+      "outcome": "passed",
+      "time": 0.012
+    },
+    {
+      "classname": "tests.backend.test_interview_engine",
+      "name": "test_start_interview_requires_authentication",
+      "outcome": "passed",
+      "time": 0.012
+    },
+    {
+      "classname": "tests.backend.auth.test_authentication_api",
+      "name": "test_admin_role_routes_are_protected",
+      "outcome": "passed",
+      "time": 0.011
+    },
+    {
+      "classname": "tests.backend.api.test_api_contracts",
+      "name": "test_protected_get_contracts_require_bearer_token[/api/v1/analytics/overview]",
+      "outcome": "passed",
+      "time": 0.01
+    },
+    {
+      "classname": "tests.backend.auth.test_authentication_api",
+      "name": "test_signup_validates_email_name_and_password_strength",
+      "outcome": "passed",
+      "time": 0.01
+    },
+    {
+      "classname": "tests.backend.auth.test_authentication_api",
+      "name": "test_login_rejects_invalid_email_shape_before_database_work",
+      "outcome": "passed",
+      "time": 0.009
+    },
+    {
+      "classname": "tests.backend.auth.test_authentication_api",
+      "name": "test_refresh_token_requires_token_entropy",
+      "outcome": "passed",
+      "time": 0.009
+    },
+    {
+      "classname": "tests.backend.auth.test_authentication_api",
+      "name": "test_profile_route_requires_bearer_access_token",
+      "outcome": "passed",
+      "time": 0.009
+    },
+    {
+      "classname": "tests.backend.auth.test_authentication_api",
+      "name": "test_profile_route_rejects_malformed_bearer_token",
+      "outcome": "passed",
+      "time": 0.008
+    },
+    {
+      "classname": "tests.backend.integration.test_candidate_intelligence_pipeline",
+      "name": "test_question_evaluation_recommendation_resume_and_code_pipeline",
+      "outcome": "passed",
+      "time": 0.004
+    },
+    {
+      "classname": "tests.backend.test_live_coding",
+      "name": "test_sql_runner_returns_select_rows",
+      "outcome": "passed",
+      "time": 0.004
+    },
+    {
+      "classname": "tests.backend.api.test_api_contracts",
+      "name": "test_middleware_adds_request_context_and_security_headers",
+      "outcome": "passed",
+      "time": 0.003
+    },
+    {
+      "classname": "tests.backend.database.test_database_metadata",
+      "name": "test_postgresql_ddl_compiles_for_all_models",
+      "outcome": "passed",
+      "time": 0.003
+    },
+    {
+      "classname": "tests.backend.test_health",
+      "name": "test_health_check_returns_standard_envelope",
+      "outcome": "passed",
+      "time": 0.003
+    },
+    {
+      "classname": "tests.backend.test_health",
+      "name": "test_readiness_can_run_without_external_dependencies_in_test_mode",
+      "outcome": "passed",
+      "time": 0.003
+    },
+    {
+      "classname": "tests.backend.test_crud_service",
+      "name": "test_crud_service_create_commits_and_refreshes",
+      "outcome": "passed",
+      "time": 0.001
+    },
+    {
+      "classname": "tests.backend.test_crud_service",
+      "name": "test_crud_service_get_raises_not_found",
+      "outcome": "passed",
+      "time": 0.001
+    },
+    {
+      "classname": "tests.backend.test_evaluation_engine",
+      "name": "test_template_evaluator_generates_required_scores_and_outputs",
+      "outcome": "passed",
+      "time": 0.001
+    },
+    {
+      "classname": "tests.backend.test_live_coding",
+      "name": "test_analyzer_detects_nested_complexity_and_generates_optimized_code",
+      "outcome": "passed",
+      "time": 0.001
+    },
+    {
+      "classname": "tests.backend.test_live_coding",
+      "name": "test_analyzer_reports_python_correctness_bugs",
+      "outcome": "passed",
+      "time": 0.001
+    },
+    {
+      "classname": "tests.backend.test_recommendation_engine",
+      "name": "test_recommendation_provider_generates_resources_and_roadmaps",
+      "outcome": "passed",
+      "time": 0.001
+    },
+    {
+      "classname": "tests.backend.test_resume_analyzer",
+      "name": "test_resume_provider_extracts_skills_and_gap_report",
+      "outcome": "passed",
+      "time": 0.001
+    },
+    {
+      "classname": "tests.backend.test_resume_analyzer",
+      "name": "test_resume_provider_handles_no_job_description",
+      "outcome": "passed",
+      "time": 0.001
+    },
+    {
+      "classname": "tests.backend.test_security",
+      "name": "test_jwt_create_and_decode_validates_type",
+      "outcome": "passed",
+      "time": 0.001
+    },
+    {
+      "classname": "tests.backend.unit.test_validation_contracts",
+      "name": "test_production_settings_require_secure_jwt_secret",
+      "outcome": "passed",
+      "time": 0.001
+    },
+    {
+      "classname": "tests.backend.database.test_database_metadata",
+      "name": "test_sqlalchemy_metadata_contains_product_tables",
+      "outcome": "passed",
+      "time": 0.0
+    },
+    {
+      "classname": "tests.backend.database.test_database_metadata",
+      "name": "test_required_foreign_keys_are_declared",
+      "outcome": "passed",
+      "time": 0.0
+    },
+    {
+      "classname": "tests.backend.test_interview_engine",
+      "name": "test_template_question_generator_cycles_categories",
+      "outcome": "passed",
+      "time": 0.0
+    },
+    {
+      "classname": "tests.backend.test_security",
+      "name": "test_password_strength_validation_rejects_weak_password",
+      "outcome": "passed",
+      "time": 0.0
+    },
+    {
+      "classname": "tests.backend.test_security",
+      "name": "test_token_fingerprint_is_deterministic_and_non_plaintext",
+      "outcome": "passed",
+      "time": 0.0
+    },
+    {
+      "classname": "tests.backend.unit.test_validation_contracts",
+      "name": "test_start_interview_request_rejects_duplicate_categories",
+      "outcome": "passed",
+      "time": 0.0
+    },
+    {
+      "classname": "tests.backend.unit.test_validation_contracts",
+      "name": "test_code_run_request_rejects_blank_source_code",
+      "outcome": "passed",
+      "time": 0.0
+    },
+    {
+      "classname": "tests.backend.unit.test_validation_contracts",
+      "name": "test_resume_text_request_requires_enough_signal",
+      "outcome": "passed",
+      "time": 0.0
+    }
+  ],
+  "tests": 69,
+  "time": 2.495
+}

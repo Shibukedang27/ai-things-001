@@ -1,0 +1,107 @@
+name: ${COMPOSE_PROJECT_NAME:-offerpilotai}
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+      target: ${BACKEND_BUILD_TARGET:-production}
+    image: ${OFFERPILOT_AI_API_IMAGE:-offerpilot-ai-api}:${OFFERPILOT_AI_IMAGE_TAG:-local}
+    container_name: ${COMPOSE_PROJECT_NAME:-offerpilotai}-api
+    restart: unless-stopped
+    env_file:
+      - ${OFFERPILOT_AI_ENV_FILE:-./config/env/development.env}
+    environment:
+      OFFERPILOT_AI_HOST: 0.0.0.0
+      OFFERPILOT_AI_PORT: 8000
+      OFFERPILOT_AI_DATABASE_URL: ${OFFERPILOT_AI_DATABASE_URL:-postgresql+asyncpg://offerpilotai:offerpilotai_change_me@postgres:5432/offerpilotai}
+      OFFERPILOT_AI_REDIS_URL: ${OFFERPILOT_AI_REDIS_URL:-redis://redis:6379/0}
+    ports:
+      - "${API_PORT:-8000}:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/v1/health/ready', timeout=5)\""]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    networks:
+      - offerpilotai
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: ${FRONTEND_BUILD_TARGET:-production}
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-/api/v1}
+    image: ${OFFERPILOT_AI_FRONTEND_IMAGE:-offerpilot-ai-frontend}:${OFFERPILOT_AI_IMAGE_TAG:-local}
+    container_name: ${COMPOSE_PROJECT_NAME:-offerpilotai}-frontend
+    restart: unless-stopped
+    environment:
+      VITE_API_BASE_URL: ${VITE_API_BASE_URL:-/api/v1}
+      VITE_API_PROXY_TARGET: ${VITE_API_PROXY_TARGET:-http://api:8000}
+    ports:
+      - "${FRONTEND_PORT:-3000}:8080"
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8080/health >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    networks:
+      - offerpilotai
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: ${COMPOSE_PROJECT_NAME:-offerpilotai}-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-offerpilotai}
+      POSTGRES_USER: ${POSTGRES_USER:-offerpilotai}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-offerpilotai_change_me}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - offerpilotai_postgres_data:/var/lib/postgresql/data
+      - ./database/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - offerpilotai
+
+  redis:
+    image: redis:7-alpine
+    container_name: ${COMPOSE_PROJECT_NAME:-offerpilotai}-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - offerpilotai_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - offerpilotai
+
+volumes:
+  offerpilotai_postgres_data:
+  offerpilotai_redis_data:
+  offerpilotai_frontend_node_modules:
+
+networks:
+  offerpilotai:
+    driver: bridge

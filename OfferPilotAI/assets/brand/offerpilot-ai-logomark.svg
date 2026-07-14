@@ -1,0 +1,9 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">OfferPilot AI logomark</title>
+  <desc id="desc">A premium placeholder mark with an abstract pilot path and offer check signal.</desc>
+  <rect width="128" height="128" rx="28" fill="#0B1220"/>
+  <path d="M31 78.5C45.5 48 71 35 98 31" stroke="#14B8A6" stroke-width="9" stroke-linecap="round"/>
+  <path d="M38 82L54 96L91 52" stroke="#F59E0B" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="96" cy="31" r="9" fill="#A3E635"/>
+  <path d="M31 78.5C45.5 48 71 35 98 31" stroke="white" stroke-opacity=".22" stroke-width="2" stroke-linecap="round"/>
+</svg>

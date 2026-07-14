@@ -1,9 +1,11 @@
 # AI Things 001
 
-A small collection of AI-assisted coding projects completed on July 15, 2026.
+A small collection of AI-assisted coding projects completed across July 14-15, 2026.
 
 ## Projects
 
+- `ResearchForgeOS/` - A research and learning OS scaffold with backend modules, knowledge/retrieval engines, docs, and deployment structure.
+- `OfferPilotAI/` - An AI interview and hiring platform scaffold with backend, frontend, docs, Docker setup, and tests.
 - `trading_bot/` - A Python CLI trading bot for Binance Futures Testnet with validation, logging, tests, and a professional README.
 
 Each project keeps its own setup and usage instructions inside its folder.

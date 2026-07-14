@@ -1,0 +1,59 @@
+# Operating system
+.DS_Store
+Thumbs.db
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+
+# Python
+__pycache__/
+*.py[cod]
+.python-version
+.venv/
+.verify-venv/
+venv/
+env/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# JavaScript and frontend tooling
+node_modules/
+.next/
+.nuxt/
+dist/
+build/
+coverage/
+*.tsbuildinfo
+
+# Logs
+*.log
+logs/
+
+# Generated data
+uploads/
+storage/
+tmp/
+temp/
+artifacts/
+
+# AI and vector indexes
+*.faiss
+*.index
+*.sqlite3
+*.db
+
+# Docker
+docker-data/
+
+# IDE
+.idea/
+.vscode/
+*.swp
